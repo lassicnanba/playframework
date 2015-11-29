@@ -1,7 +1,10 @@
-@(message: String)
+	@(msg: String, datas: List[Message])
 
-@main("Welcome to Play") {
+	@main("Sample Page") {
 
-    @play20.welcome(message, style = "Java")
-
-}
+		<h1>Hello!</h1>
+		<p>@msg</p>
+		<pre>
+			@datas
+		</pre>
+	}
