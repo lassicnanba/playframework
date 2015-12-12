@@ -17,19 +17,40 @@ public class Application extends Controller {
   }
   // ルートにアクセスした際のAction
   public static Result index() {
-    return ok(index.render("何か書いて",new Form(SampleForm.class)));
+    List<Message> datas = Message.find.all();
+    return ok(index.render("データベースのサンプル",datas));
   }
-  // /sendにアクセスした際のAction
-  public static Result send() {
-    Form<SampleForm> f = form(SampleForm.class).bindFromRequest();
+
+  // 新規作成フォームのAction
+  public static Result add(){
+    Form<Message> f = new Form(Message.class);
+    return ok(add.render("投稿フォーム",f));
+  }
+
+  // /createにアクセスした際のAction
+  public static Result create(){
+    Form<Message> f = new Form(Message.class).bindFromRequest();
     if (!f.hasErrors()){
-      SampleForm data = f.get();
-      String msg = "you typed:" + data.message;
-      return ok(index.render(msg,f));
+      Message data = f.get();
+      data.save();
+      return redirect("/");
     } else {
-      return badRequest(index.render("ERROR",form(SampleForm.class)));
+      return badRequest(add.render("ERROR",f));
     }
   }
+
+
+  // // /sendにアクセスした際のAction
+  // public static Result send() {
+  //   Form<SampleForm> f = form(SampleForm.class).bindFromRequest();
+  //   if (!f.hasErrors()){
+  //     SampleForm data = f.get();
+  //     String msg = "you typed:" + data.message;
+  //     return ok(index.render(msg,f));
+  //   } else {
+  //     return badRequest(index.render("ERROR",form(SampleForm.class)));
+  //   }
+  // }
 
   public static Result list(){
     return ok(list.render(
