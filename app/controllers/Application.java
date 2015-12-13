@@ -75,18 +75,31 @@ public class Application extends Controller {
     }
   }
 
+  // /delにアクセスした際のAction
+  public static Result delete(){
+    Form<Message> f = new Form(Message.class);
+    return ok(delete.render("削除するID番号",f));
+  }
 
-  // // /sendにアクセスした際のAction
-  // public static Result send() {
-  //   Form<SampleForm> f = form(SampleForm.class).bindFromRequest();
-  //   if (!f.hasErrors()){
-  //     SampleForm data = f.get();
-  //     String msg = "you typed:" + data.message;
-  //     return ok(index.render(msg,f));
-  //   } else {
-  //     return badRequest(index.render("ERROR",form(SampleForm.class)));
-  //   }
-  // }
+  // /removeにアクセスした際のAction
+  public static Result remove(){
+    Form<Message> f = new Form(Message.class).bindFromRequest();
+    if (!f.hasErrors()){
+      Message obj = f.get();
+      Long id = obj.id;
+      obj = Message.find.byId(id);
+      if (obj != null){
+        obj.delete();
+        return redirect("/");
+      } else {
+        return ok(delete.render("ERROR：そのID番号は見つかりません。",f));
+      }
+    } else {
+      return ok(delete.render("ERROR：入力にエラーが起こりました。",f));
+    }
+  }
+
+
 
   public static Result list(){
     return ok(list.render(
