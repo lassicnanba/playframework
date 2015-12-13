@@ -39,6 +39,42 @@ public class Application extends Controller {
     }
   }
 
+  // /itemにアクセスした際のAction
+  public static Result setitem(){
+    Form<Message> f = new Form(Message.class);
+    return ok(item.render("ID番号を入力。",f));
+  }
+
+  // /editにアクセスした際のAction
+  public static Result edit(){
+    Form<Message> f = new Form(Message.class).bindFromRequest();
+    if (!f.hasErrors()){
+      Message obj = f.get();
+      Long id = obj.id;
+      obj = Message.find.byId(id);
+      if (obj != null){
+        f = new Form(Message.class).fill(obj);
+        return ok(edit.render("ID=" + id + "の投稿を編集。",f));
+      } else {
+        return ok(item.render("ERROR:IDの投稿が見つかりません。",f));
+      }
+    } else {
+      return ok(item.render("ERROR：入力に問題が有ります。",f));
+    }
+  }
+
+  // /updateにアクセスした際のAction
+  public static Result update(){
+    Form<Message> f = new Form(Message.class).bindFromRequest();
+    if(!f.hasErrors()){
+      Message data = f.get();
+      data.update();
+      return redirect("/");
+    } else {
+      return ok(edit.render("ERROR：再度入力下さい。",f));
+    }
+  }
+
 
   // // /sendにアクセスした際のAction
   // public static Result send() {
