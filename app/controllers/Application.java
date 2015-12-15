@@ -8,6 +8,8 @@ import play.data.*;
 import static play.data.Form.*;
 import play.mvc.*;
 
+import play.db.*;
+
 import views.html.*;
 
 public class Application extends Controller {
