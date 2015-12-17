@@ -1,8 +1,33 @@
-	@(msg: String, datas: List[Message])
+	@(msg: String, tasks: List[Tasks])
 
 	@main("Sample Page") {
 
 		<h1>Hello!</h1>
 		<p>@msg</p>
-		<pre>@datas</pre>
+		<table>
+			<tr>
+				<th>id</th>
+				<th>tadk_name</th>
+				<th>status</th>
+			</tr>
+			@for(task <-tasks){
+				<tr>
+					<td>@task.id</td>
+					<td>@task.task_name</td>
+					<td>@task.status</td>
+				</tr>
+			}
+		</table>
+		@helper.form(action = routes.Application.add){
+		<input type="submit" value="タスクの追加">
+		}
+		@helper.form(action = routes.Application.setitem){
+		<input type="submit" value="タスクの編集">
+		}
+		@helper.form(action = routes.Application.delete){
+		<input type="submit" value="タスクの削除">
+		}
+
+
+
 	}

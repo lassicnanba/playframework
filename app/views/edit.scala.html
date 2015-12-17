@@ -1,21 +1,21 @@
-@(msg: String, form1: Form[models.Message])
+@(msg: String, form1: Form[models.Tasks])
 @main("Sample Page") {
 
   <h1>Update Data</h1>
   <p>@msg</p>
   @helper.form(action = routes.Application.update){
     <input type="hidden" value="@form1("id").value" name="id" />
-    
-    @(helper.inputText (
-      field = form1("name")
-    ))
-    @(helper.inputText (
-      field = form1("mail")
-    ))
-    @(helper.textarea (
-      field = form1("message")
-    ))
 
+    @(helper.inputText (
+      field = form1("task_name")
+    ))
+    @(helper.inputText (
+      field = form1("status")
+    ))
   <input type="submit">
   }
+  @helper.form(action = routes.Application.index){
+  <input type="submit" value="TOP">
+  }
+
 }

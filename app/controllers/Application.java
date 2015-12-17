@@ -15,25 +15,25 @@ import views.html.*;
 public class Application extends Controller {
   // Form用の内部クラス
   public static class SampleForm {
-    public String message;
+    public String Tasks;
   }
   // ルートにアクセスした際のAction
   public static Result index() {
-    List<Message> datas = Message.find.all();
-    return ok(index.render("データベースのサンプル",datas));
+    List<Tasks> tasks = Tasks.find.all();
+    return ok(index.render("データベースのサンプル",tasks));
   }
 
   // 新規作成フォームのAction
   public static Result add(){
-    Form<Message> f = new Form(Message.class);
+    Form<Tasks> f = new Form(Tasks.class);
     return ok(add.render("投稿フォーム",f));
   }
 
   // /createにアクセスした際のAction
   public static Result create(){
-    Form<Message> f = new Form(Message.class).bindFromRequest();
+    Form<Tasks> f = new Form(Tasks.class).bindFromRequest();
     if (!f.hasErrors()){
-      Message data = f.get();
+      Tasks data = f.get();
       data.save();
       return redirect("/");
     } else {
@@ -43,22 +43,22 @@ public class Application extends Controller {
 
   // /itemにアクセスした際のAction
   public static Result setitem(){
-    Form<Message> f = new Form(Message.class);
+    Form<Tasks> f = new Form(Tasks.class);
     return ok(item.render("ID番号を入力。",f));
   }
 
   // /editにアクセスした際のAction
   public static Result edit(){
-    Form<Message> f = new Form(Message.class).bindFromRequest();
+    Form<Tasks> f = new Form(Tasks.class).bindFromRequest();
     if (!f.hasErrors()){
-      Message obj = f.get();
-      Long id = obj.id;
-      obj = Message.find.byId(id);
+      Tasks obj = f.get();
+      Integer id = obj.id;
+      obj = Tasks.find.byId(id);
       if (obj != null){
-        f = new Form(Message.class).fill(obj);
+        f = new Form(Tasks.class).fill(obj);
         return ok(edit.render("ID=" + id + "の投稿を編集。",f));
       } else {
-        return ok(item.render("ERROR:IDの投稿が見つかりません。",f));
+        return ok(item.render("ERROR:IDの投稿が見つかりません。", f));
       }
     } else {
       return ok(item.render("ERROR：入力に問題が有ります。",f));
@@ -67,9 +67,9 @@ public class Application extends Controller {
 
   // /updateにアクセスした際のAction
   public static Result update(){
-    Form<Message> f = new Form(Message.class).bindFromRequest();
+    Form<Tasks> f = new Form(Tasks.class).bindFromRequest();
     if(!f.hasErrors()){
-      Message data = f.get();
+      Tasks data = f.get();
       data.update();
       return redirect("/");
     } else {
@@ -79,17 +79,17 @@ public class Application extends Controller {
 
   // /delにアクセスした際のAction
   public static Result delete(){
-    Form<Message> f = new Form(Message.class);
+    Form<Tasks> f = new Form(Tasks.class);
     return ok(delete.render("削除するID番号",f));
   }
 
   // /removeにアクセスした際のAction
   public static Result remove(){
-    Form<Message> f = new Form(Message.class).bindFromRequest();
+    Form<Tasks> f = new Form(Tasks.class).bindFromRequest();
     if (!f.hasErrors()){
-      Message obj = f.get();
-      Long id = obj.id;
-      obj = Message.find.byId(id);
+      Tasks obj = f.get();
+      Integer id = obj.id;
+      obj = Tasks.find.byId(id);
       if (obj != null){
         obj.delete();
         return redirect("/");
